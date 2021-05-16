@@ -49,11 +49,14 @@ const updateBoard = async (id, board) => {
 };
 
 const removeBoard = async (id) => {
+    console.log(id);
+    console.log(DBBoard);
   const boardIndex = await getIndexBoard(id);
 
   if (boardIndex > -1) {
     DBBoard.splice(boardIndex, 1);
   }
+  console.log(DBBoard);
 };
 
 module.exports = {
