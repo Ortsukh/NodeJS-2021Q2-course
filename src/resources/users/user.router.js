@@ -32,7 +32,7 @@ router.route('/:id').put(async (req, res) => {
    res.status(200).json(User.toResponse(user));
  })
  router.route('/:id').delete(async (req, res) => {
-  const users = await usersService.deleteId(req.params.id);
+  const users = await usersService.remove(req.params.id);
   res.status(204).json(users.map(User.toResponse));
 });
 module.exports = router;
