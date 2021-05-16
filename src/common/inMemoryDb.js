@@ -1,5 +1,6 @@
 const DBUsers = [];
 const DBBoard = [];
+const DBTasks = [];
 
 const getAllUsers = async () => DBUsers.slice(0);
 
@@ -28,7 +29,14 @@ const deleteUser = async (id) => {
   } else {
     throw new Error(`the user with ${id} was not found`);
   }
-  return DBUsers.slice(0);
+  DBTasks.forEach(el=>{
+      let tmp
+      if(el.userId === id){
+        tmp = el;   
+        tmp.userId = null;
+         
+      }
+  })
 };
 const getAllBoards = async () => DBBoard.slice(0);
 
@@ -37,6 +45,7 @@ const getBoard = async (id) => DBBoard.filter((el) => el.id === id)[0];
 const getIndexBoard = async (id) => DBBoard.findIndex((el) => el.id === id);
 
 const createBoard = async (board) => {
+    
   DBBoard.push(board);
   return board;
 };
@@ -49,15 +58,45 @@ const updateBoard = async (id, board) => {
 };
 
 const removeBoard = async (id) => {
-    console.log(id);
-    console.log(DBBoard);
-  const boardIndex = await getIndexBoard(id);
+   const boardIndex = await getIndexBoard(id);
 
   if (boardIndex > -1) {
     DBBoard.splice(boardIndex, 1);
   }
-  console.log(DBBoard);
+  DBTasks.filter((task) => task && task.boardId !== id);
 };
+const getAllTasks = async () => DBTasks.slice(0);
+
+const getTask = async (id) => DBTasks.filter((el) => el.id === id)[0];
+
+const getIndexTask = async (id) => DBTasks.findIndex((el) => el.id === id);
+
+const createTask = async (task) => {
+    DBTasks.push(task);
+  return task;
+};
+
+const updateTask = async (id, task) => {
+  const taskdId = await getTask(id);
+  taskdId.order = task.order;
+  taskdId.description = task.description;
+  taskdId.userId = task.userId;
+  taskdId.boardId = task.boardId;
+  taskdId.columnId = task.columnId;
+  taskdId.title = task.title;
+
+  return taskdId;
+};
+
+const removeTask = async (id) => {
+   const taskIndex = await getIndexTask(id);
+
+  if (taskIndex > -1) {
+    DBTasks.splice(taskIndex, 1);
+  }
+  
+};
+
 
 module.exports = {
   getAllUsers,
@@ -70,4 +109,9 @@ module.exports = {
   updateBoard,
   removeBoard,
   getBoard,
+  getAllTasks,
+  createTask,
+  updateTask,
+  removeTask,
+  getTask
 };
