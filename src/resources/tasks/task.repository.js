@@ -3,7 +3,7 @@ const DB = require("../../common/inMemoryDb");
 const getAll = async () => DB.getAllTasks();
 
 const get = async id => {
- const task = DB.getTask(id);
+ const task = await DB.getTask(id);
 
  if(!task){
    throw new Error(`the task with ${id} was not found`)

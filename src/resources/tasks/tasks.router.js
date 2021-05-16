@@ -8,8 +8,13 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/:id').get(async (req, res) => {
+  try {
   const task = await tasksService.get(req.params.id);
   res.status(200).json(task);
+    
+} catch (error) {
+    res.status(404).send(error.message)
+}
 });
 
 router.route('/').post(async (req, res) => {

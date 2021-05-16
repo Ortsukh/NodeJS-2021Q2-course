@@ -3,10 +3,10 @@ const DB = require("../../common/inMemoryDb");
 const getAll = async () => DB.getAllBoards();
 
 const get = async id => {
- const board = DB.getBoard(id);
-
+ const board = await DB.getBoard(id);
+ 
  if(!board){
-   throw new Error(`the user with ${id} was not found`)
+   throw new Error(`the board with ${id} was not found`)
  }
  return board;
 }

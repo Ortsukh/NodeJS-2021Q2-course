@@ -12,9 +12,11 @@ class Board {
       },
     ],
   } = {}) {
-    // columns.forEach((el) => {
-    //   el.id = uuid.v4();
-    // });
+    let tmp
+    columns.forEach((el) => {
+      tmp = el;
+      tmp.id = uuid.v4()
+    });
     this.id = id;
     this.title = title;
     this.columns = columns;

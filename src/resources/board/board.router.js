@@ -3,13 +3,18 @@ const Board = require('./board.model');
 const boardService = require('./board.service');
 
 router.route('/').get(async (req, res) => {
-  const users = await boardService.getAll();
-  res.json(users);
+  const board = await boardService.getAll();
+  res.json(board);
 });
 
 router.route('/:id').get(async (req, res) => {
-  const user = await boardService.get(req.params.id);
-  res.status(200).json(user);
+    try {
+        const board = await boardService.get(req.params.id);
+        res.status(200).json(board);
+    } catch (error) {
+        res.status(404).send(error.message)
+    }
+ 
 });
 
 router.route('/').post(async (req, res) => {
@@ -28,8 +33,11 @@ router.route('/:id').put(async (req, res) => {
   res.status(200).json(board);
 });
 router.route('/:id').delete(async (req, res) => {
-  await boardService.remove(req.params.id);
+   
+    await boardService.remove(req.params.id);
 
-  res.sendStatus(204);
+    res.sendStatus(204);
+   
+    
 });
 module.exports = router;
